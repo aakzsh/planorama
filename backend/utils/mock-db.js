@@ -81,7 +81,7 @@ class MockDB {
   }
 }
 
-const mockDB = new MockDB('datastore.json');
+const mockDB = new MockDB('data-store.json');
 
 // 'datastore.json' is created at runtime
 module.exports = mockDB;
