@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as dateFns from "date-fns";
 import axios from "axios"
-import moment from 'moment';
 
 import './Calendar.css'
 
