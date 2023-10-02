@@ -208,3 +208,42 @@
         flex-basis: calc(100%/7);
         width: calc(100%/7);
     }
+
+    .timeseries{
+        width: 95%;
+        height: 80%;
+    }
+
+    .timeseriesparent{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .timetile{
+        margin-top: 1rem;
+        background-color: rgb(76, 175, 30);
+        height: 1rem;
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+
+    .timeline-axis{
+        background-color: rgb(0, 0, 0);
+        margin-top: 0rem;
+        height: 0.1rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .closebtn{
+       padding: 1rem 0 0 1rem;
+       cursor: pointer;
+    }
+
+    .time24hr{
+        display: flex;
+        justify-content: space-between;
+    }
