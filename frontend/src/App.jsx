@@ -10,8 +10,20 @@ function App() {
   const nylas = useNylas();
   const [userId, setUserId] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [preferences, setPreferences] = useState(true);
-  const [firstCardChecked, setFirstCardChecked] = useState(true)
+  const [preferences, setPreferences] = useState(false);
+  const [firstCardChecked, setFirstCardChecked] = useState(true);
+  const [index, setIndex] = useState(0);
+  const [preferencesArray, setPreferencesArray] = useState([0,0,0,0,0,0]);
+
+  const choices = [
+    ["Coffee meet with Jim", "Business plan discussion with Alex"],
+    ["Production release meet","Daily Standup meet"],
+    ["Going for daughter's school admission","Going to grocery store"],
+    ["University internship report submission","Long drive to nevada"],
+    ["watching favourite TV show on TV","going to favourite artist's music concert"],
+    ["meeting regarding bug fixes","Professional photoshoot for business magazine"],
+  ];
+
 
   useEffect(() => {
     if (!nylas) {
@@ -39,11 +51,16 @@ function App() {
   useEffect(() => {
     const userIdString = sessionStorage.getItem("userId");
     const userEmail = sessionStorage.getItem("userEmail");
+    const isUserPreferenceRequired = sessionStorage.getItem("isUserPreferenceRequired");
     if (userIdString) {
       setUserId(userIdString);
     }
     if (userEmail) {
       setUserEmail(userEmail);
+    }
+    if(isUserPreferenceRequired == "true")
+    {
+      setPreferences(true);
     }
   }, []);
 
@@ -63,16 +80,26 @@ function App() {
     setUserEmail("");
   };
 
-  function handleNextClick () {
+  useEffect(() => {
+    if(index == choices.length)
+    {
+      sessionStorage.setItem('preferences', JSON.stringify(preferencesArray))
+      sessionStorage.setItem('isUserPreferenceRequired', "false")
+      setPreferences(false)
+    }
+  }, [index])
+  
+  function handleNextClick() {
     
+    setIndex(index+1)
+    let temp = preferencesArray;
+    temp[index] = !firstCardChecked;
+    setPreferencesArray(temp); 
   }
 
   const handleChildRadioChange = (newSelected) => {
-    console.log("change reflected", newSelected)
     setFirstCardChecked(newSelected);
-  }
-
-
+  };
 
   return (
     <Layout showMenu={!!userId} disconnectUser={disconnectUser}>
@@ -82,9 +109,16 @@ function App() {
         <>
           {preferences ? (
             <div className="preferences-container">
-              <ChoosePreferences title1={"t1"} title2={"t2"} handleChildRadioChange={handleChildRadioChange}></ChoosePreferences>
-              <br /><br />
-              <button className="nextbtn" onClick={handleNextClick}>Next</button>
+              <ChoosePreferences
+                title1={index < choices.length ? choices[index][0] : choices[choices.length - 1][0]}
+                title2={index < choices.length ? choices[index][1] : choices[choices.length - 1][1]}
+                handleChildRadioChange={handleChildRadioChange}
+              ></ChoosePreferences>
+              <br />
+              <br />
+              <button className="nextbtn" onClick={handleNextClick}>
+                {index < choices.length ? "Next" : "Submit Preferences"}
+              </button>
             </div>
           ) : (
             <Home />

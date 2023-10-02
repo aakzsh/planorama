@@ -114,22 +114,46 @@ console.log(newArray)
 
 
 // get calendar events
-app.post('/nylas/sort-events', express.json(), async (req, res) => {
-  
+app.post("/nylas/sort-events", express.json(), async (req, res) => {
   const body = req.body;
-  const analysis1 = sentiment('coffee meet with jim');
-  const analysis2 = sentiment('business expansion meet to discuss important deliverables');
-  const analysis3 = sentiment('daily standup');
-  const analysis4 = sentiment('important movie night');
-  const analysis5 = sentiment("taking measures to stop the downfall of our company")
+  const choices = {
+    low: [
+      "Coffee meet with Jim",
+      "Daily Standup meet",
+      "Going to grocery store",
+      "Long drive to nevada",
+      "watching favourite TV show on TV",
+      "meeting regarding bug fixes",
+    ],
+    high: [
+      "Business plan discussion with Alex",
+      "Production release meet",
+      "Going for daughter's school admission",
+      "University internship report submission",
+      "going to favourite artist's music concert",
+      "Professional photoshoot for business magazine",
+    ],
+  };
 
-  // Print the results of the analysis
-  console.log(analysis1, analysis2, analysis3, analysis4, analysis5);
+  const highPriorityTasks = choices.high;
+  const lowPriorityTasks = choices.low;
 
+  highPriorityTasks.forEach((el) => {
+    manager.addDocument("en", el, "high");
+  });
 
-  return res.send({data: "newArray", code: 200});
+  lowPriorityTasks.forEach((el) => {
+    manager.addDocument("en", el, "low");
+  });
+
+  await manager.train();
+  manager.save();
+  const response1 = await manager.process("en", "Play mobile game");
+  const response2 = await manager.process("en", "study for an hour");
+  console.log(response1.classifications, response2.classifications);
+
+  return res.send({ data: "newArray", code: 200 });
 });
 
-
 // Start listening on port 9000
-app.listen(port, () => console.log('App listening on port ' + port));
+app.listen(port, () => console.log("App listening on port " + port));
