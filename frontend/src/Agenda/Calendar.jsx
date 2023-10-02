@@ -230,9 +230,10 @@ const Calendar = ({ handleChildStateUpdate }) => {
               </h3>
               <div className="time24hr">
                 {times.map((el) => {
-                  return <p>{el}</p>;
+                  return <div className="timetext"><p className="timetextp">{el}</p></div>;
                 })}
               </div>
+              <br />
               {dayData.map((element) => {
                 let firstTime = new Date(
                   element.when.start_time * 1000
@@ -257,12 +258,12 @@ const Calendar = ({ handleChildStateUpdate }) => {
                 // <p>{element.toString()}</p>
                 return (
                   <div>
-                    <p>{element.title}</p>
+                    <p className="meet-title">{element.title}</p>
                     <div className="timeline-axis">
                       <div
                         className="timetile"
                         style={{
-                          marginLeft: left_percent * 100 + "%",
+                          marginLeft:  left_percent * 100 + "%",
                           marginRight: right_percent * 100 + "%",
                         }}
                       ></div>
