@@ -37,8 +37,13 @@ justify-content: space-between;
 }
 
 .setter-box{
-    height: 5rem;
+    height: max-content;
     background-color: #B9C8FF30;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 0.5rem;
 }
 .calendar-area{
     width: 100%;
@@ -50,11 +55,96 @@ justify-content: space-between;
 
 .alert-box{
     width: calc(100%-2rem);
-    height: 8vh;
+    /* height: 8vh; */
+    height: max-content;
     /* background-color: rgb(237, 86, 86); */
     display: flex;
     align-items: center;
-    padding-left: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     border-radius: 0.5rem;
     font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.legend-div{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+    font-weight: 600;
+}
+
+.legend-color{
+    height: 1rem;
+    width: 4rem;
+}
+
+.day-selector{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    height: 2rem;
+    background-color: rgba(255, 192, 203, 0.105);
+    border-radius: 0.5rem;
+    border: 2px solid rgb(35, 29, 59);
+    width: max-content;
+    cursor: pointer;
+}
+
+.day-selected{
+    color: white;
+    background-color: rgb(35, 29, 59);
+}
+
+.days-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.working-hrs-container{
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.working-hrs{
+    width: 3rem;
+    height: 2rem;
+    border: 2px solid rgb(35, 29, 59);
+    background-color: rgba(255, 192, 203, 0.105);
+    color: rgb(35, 29, 59);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.save-btn{
+    margin-top: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: rgb(35, 29, 59);
+    height: 2.5rem;
+    width: 8rem;
+    border: none;
+    border-radius: 0.5rem;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.select-datetime{
+    height: 2.5rem;
+    width: 15rem;
+    border: 2px solid rgb(35, 29, 59);
+    background-color: rgba(255, 192, 203, 0.105);
+    border-radius: 0.5rem;
+    font-family: sans-serif;
+    padding-left: 1rem;
+    font-size: 1rem;
+    padding-right: 1rem;
 }
