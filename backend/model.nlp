@@ -1,0 +1,630 @@
+{
+  "settings": {
+    "languages": [
+      "en"
+    ],
+    "forceNER": true,
+    "tag": "nlp",
+    "threshold": 0.5,
+    "autoLoad": true,
+    "autoSave": true,
+    "modelFileName": "model.nlp",
+    "executeActionsBeforeAnswers": false,
+    "calculateSentiment": true
+  },
+  "nluManager": {
+    "settings": {
+      "tag": "nlu-manager"
+    },
+    "locales": [
+      "en"
+    ],
+    "languageNames": {},
+    "domainManagers": {
+      "en": {
+        "settings": {
+          "locale": "en",
+          "trainByDomain": false,
+          "tag": "domain-manager-en",
+          "nluByDomain": {
+            "default": {
+              "className": "NeuralNlu",
+              "settings": {}
+            }
+          },
+          "useStemDict": true
+        },
+        "stemDict": {
+          "alex,busi,discuss,plan,with": {
+            "intent": "high",
+            "domain": "default"
+          },
+          "meet,product,releas": {
+            "intent": "high",
+            "domain": "default"
+          },
+          "admiss,daughter,for,go,is,school": {
+            "intent": "high",
+            "domain": "default"
+          },
+          "internship,report,submiss,univers": {
+            "intent": "high",
+            "domain": "default"
+          },
+          "artist,concert,favourit,go,is,music,to": {
+            "intent": "high",
+            "domain": "default"
+          },
+          "busi,for,magazin,photoshoot,profession": {
+            "intent": "high",
+            "domain": "default"
+          },
+          "coffe,jim,meet,with": {
+            "intent": "low",
+            "domain": "default"
+          },
+          "daili,meet,standup": {
+            "intent": "low",
+            "domain": "default"
+          },
+          "go,groceri,store,to": {
+            "intent": "low",
+            "domain": "default"
+          },
+          "drive,long,nevada,to": {
+            "intent": "low",
+            "domain": "default"
+          },
+          "favourit,on,show,tv,watch": {
+            "intent": "low",
+            "domain": "default"
+          },
+          "bug,fix,meet,regard": {
+            "intent": "low",
+            "domain": "default"
+          }
+        },
+        "intentDict": {
+          "high": "default",
+          "low": "default"
+        },
+        "sentences": [
+          {
+            "domain": "default",
+            "utterance": "Business plan discussion with Alex",
+            "intent": "high"
+          },
+          {
+            "domain": "default",
+            "utterance": "Production release meet",
+            "intent": "high"
+          },
+          {
+            "domain": "default",
+            "utterance": "Going for daughter's school admission",
+            "intent": "high"
+          },
+          {
+            "domain": "default",
+            "utterance": "University internship report submission",
+            "intent": "high"
+          },
+          {
+            "domain": "default",
+            "utterance": "going to favourite artist's music concert",
+            "intent": "high"
+          },
+          {
+            "domain": "default",
+            "utterance": "Professional photoshoot for business magazine",
+            "intent": "high"
+          },
+          {
+            "domain": "default",
+            "utterance": "Coffee meet with Jim",
+            "intent": "low"
+          },
+          {
+            "domain": "default",
+            "utterance": "Daily Standup meet",
+            "intent": "low"
+          },
+          {
+            "domain": "default",
+            "utterance": "Going to grocery store",
+            "intent": "low"
+          },
+          {
+            "domain": "default",
+            "utterance": "Long drive to nevada",
+            "intent": "low"
+          },
+          {
+            "domain": "default",
+            "utterance": "watching favourite TV show on TV",
+            "intent": "low"
+          },
+          {
+            "domain": "default",
+            "utterance": "meeting regarding bug fixes",
+            "intent": "low"
+          }
+        ],
+        "domains": {
+          "master_domain": {
+            "settings": {
+              "locale": "en",
+              "tag": "nlu-en",
+              "keepStopwords": true,
+              "nonefeatureValue": 1,
+              "nonedeltaMultiplier": 1.2,
+              "spellCheck": false,
+              "spellCheckDistance": 1,
+              "filterZeros": true,
+              "log": true
+            },
+            "features": {
+              "busi": 1,
+              "plan": 1,
+              "discuss": 1,
+              "with": 1,
+              "alex": 1,
+              "product": 1,
+              "releas": 1,
+              "meet": 1,
+              "go": 1,
+              "for": 1,
+              "daughter": 1,
+              "is": 1,
+              "school": 1,
+              "admiss": 1,
+              "univers": 1,
+              "internship": 1,
+              "report": 1,
+              "submiss": 1,
+              "to": 1,
+              "favourit": 1,
+              "artist": 1,
+              "music": 1,
+              "concert": 1,
+              "profession": 1,
+              "photoshoot": 1,
+              "magazin": 1,
+              "coffe": 1,
+              "jim": 1,
+              "daili": 1,
+              "standup": 1,
+              "groceri": 1,
+              "store": 1,
+              "long": 1,
+              "drive": 1,
+              "nevada": 1,
+              "watch": 1,
+              "tv": 1,
+              "show": 1,
+              "on": 1,
+              "regard": 1,
+              "bug": 1,
+              "fix": 1
+            },
+            "intents": {
+              "high": 1,
+              "low": 1
+            },
+            "intentFeatures": {
+              "high": {
+                "busi": 1,
+                "plan": 1,
+                "discuss": 1,
+                "with": 1,
+                "alex": 1,
+                "product": 1,
+                "releas": 1,
+                "meet": 1,
+                "go": 1,
+                "for": 1,
+                "daughter": 1,
+                "is": 1,
+                "school": 1,
+                "admiss": 1,
+                "univers": 1,
+                "internship": 1,
+                "report": 1,
+                "submiss": 1,
+                "to": 1,
+                "favourit": 1,
+                "artist": 1,
+                "music": 1,
+                "concert": 1,
+                "profession": 1,
+                "photoshoot": 1,
+                "magazin": 1
+              },
+              "low": {
+                "coffe": 1,
+                "meet": 1,
+                "with": 1,
+                "jim": 1,
+                "daili": 1,
+                "standup": 1,
+                "go": 1,
+                "to": 1,
+                "groceri": 1,
+                "store": 1,
+                "long": 1,
+                "drive": 1,
+                "nevada": 1,
+                "watch": 1,
+                "favourit": 1,
+                "tv": 1,
+                "show": 1,
+                "on": 1,
+                "regard": 1,
+                "bug": 1,
+                "fix": 1
+              }
+            },
+            "featuresToIntent": {
+              "busi": [
+                "high"
+              ],
+              "plan": [
+                "high"
+              ],
+              "discuss": [
+                "high"
+              ],
+              "with": [
+                "high",
+                "low"
+              ],
+              "alex": [
+                "high"
+              ],
+              "product": [
+                "high"
+              ],
+              "releas": [
+                "high"
+              ],
+              "meet": [
+                "high",
+                "low"
+              ],
+              "go": [
+                "high",
+                "low"
+              ],
+              "for": [
+                "high"
+              ],
+              "daughter": [
+                "high"
+              ],
+              "is": [
+                "high"
+              ],
+              "school": [
+                "high"
+              ],
+              "admiss": [
+                "high"
+              ],
+              "univers": [
+                "high"
+              ],
+              "internship": [
+                "high"
+              ],
+              "report": [
+                "high"
+              ],
+              "submiss": [
+                "high"
+              ],
+              "to": [
+                "high",
+                "low"
+              ],
+              "favourit": [
+                "high",
+                "low"
+              ],
+              "artist": [
+                "high"
+              ],
+              "music": [
+                "high"
+              ],
+              "concert": [
+                "high"
+              ],
+              "profession": [
+                "high"
+              ],
+              "photoshoot": [
+                "high"
+              ],
+              "magazin": [
+                "high"
+              ],
+              "coffe": [
+                "low"
+              ],
+              "jim": [
+                "low"
+              ],
+              "daili": [
+                "low"
+              ],
+              "standup": [
+                "low"
+              ],
+              "groceri": [
+                "low"
+              ],
+              "store": [
+                "low"
+              ],
+              "long": [
+                "low"
+              ],
+              "drive": [
+                "low"
+              ],
+              "nevada": [
+                "low"
+              ],
+              "watch": [
+                "low"
+              ],
+              "tv": [
+                "low"
+              ],
+              "show": [
+                "low"
+              ],
+              "on": [
+                "low"
+              ],
+              "regard": [
+                "low"
+              ],
+              "bug": [
+                "low"
+              ],
+              "fix": [
+                "low"
+              ]
+            },
+            "neuralNetwork": {
+              "settings": {
+                "locale": "en",
+                "tag": "nlu-en",
+                "keepStopwords": true,
+                "nonefeatureValue": 1,
+                "nonedeltaMultiplier": 1.2,
+                "spellCheck": false,
+                "spellCheckDistance": 1,
+                "filterZeros": true,
+                "log": true
+              },
+              "features": [
+                "busi",
+                "plan",
+                "discuss",
+                "with",
+                "alex",
+                "product",
+                "releas",
+                "meet",
+                "go",
+                "for",
+                "daughter",
+                "is",
+                "school",
+                "admiss",
+                "univers",
+                "internship",
+                "report",
+                "submiss",
+                "to",
+                "favourit",
+                "artist",
+                "music",
+                "concert",
+                "profession",
+                "photoshoot",
+                "magazin",
+                "coffe",
+                "jim",
+                "daili",
+                "standup",
+                "groceri",
+                "store",
+                "long",
+                "drive",
+                "nevada",
+                "watch",
+                "tv",
+                "show",
+                "on",
+                "regard",
+                "bug",
+                "fix"
+              ],
+              "intents": [
+                "high",
+                "low"
+              ],
+              "perceptrons": [
+                [
+                  3.8219873905181885,
+                  2.310854434967041,
+                  2.310854434967041,
+                  0.3439919054508209,
+                  2.310854434967041,
+                  5.278260231018066,
+                  5.278260231018066,
+                  0.38986584544181824,
+                  1.3666224479675293,
+                  2.738961935043335,
+                  1.225952386856079,
+                  3.2921574115753174,
+                  1.225952386856079,
+                  1.225952386856079,
+                  2.768876314163208,
+                  2.768876314163208,
+                  2.768876314163208,
+                  2.768876314163208,
+                  -0.7419431209564209,
+                  0.9846180081367493,
+                  2.0652215480804443,
+                  2.0652215480804443,
+                  2.0652215480804443,
+                  1.5106592178344727,
+                  1.5106592178344727,
+                  1.5106592178344727,
+                  -1.9644420146942139,
+                  -1.9644420146942139,
+                  -1.745617151260376,
+                  -1.745617151260376,
+                  -1.9164100885391235,
+                  -1.9164100885391235,
+                  -0.8247426748275757,
+                  -0.8247426748275757,
+                  -0.8247426748275757,
+                  -1.0521643161773682,
+                  -1.0521643161773682,
+                  -1.0521643161773682,
+                  -1.0521643161773682,
+                  -1.1892914772033691,
+                  -1.1892914772033691,
+                  -1.1892914772033691,
+                  3.188696161372922
+                ],
+                [
+                  -1.5719505548477173,
+                  -1.1373463869094849,
+                  -1.1373463869094849,
+                  1.4082739353179932,
+                  -1.1373463869094849,
+                  -3.7850005626678467,
+                  -3.7850005626678467,
+                  4.182653427124023,
+                  0.5778824090957642,
+                  -1.0319029092788696,
+                  -0.5091914534568787,
+                  -2.6311795711517334,
+                  -0.5091914534568787,
+                  -0.5091914534568787,
+                  -0.9103286862373352,
+                  -0.9103286862373352,
+                  -0.9103286862373352,
+                  -0.9103286862373352,
+                  3.628556489944458,
+                  0.5436303615570068,
+                  -1.9452117681503296,
+                  -1.9452117681503296,
+                  -1.9452117681503296,
+                  -0.3596009910106659,
+                  -0.3596009910106659,
+                  -0.3596009910106659,
+                  2.5763258934020996,
+                  2.5763258934020996,
+                  3.2236087322235107,
+                  3.2236087322235107,
+                  3.2606570720672607,
+                  3.2606570720672607,
+                  2.3662309646606445,
+                  2.3662309646606445,
+                  2.3662309646606445,
+                  2.5422632694244385,
+                  2.5422632694244385,
+                  2.5422632694244385,
+                  2.5422632694244385,
+                  2.178046226501465,
+                  2.178046226501465,
+                  2.178046226501465,
+                  3.5582657411880514
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "intentDomains": {},
+    "extraSentences": [
+      [
+        "en",
+        "Business plan discussion with Alex"
+      ],
+      [
+        "en",
+        "Production release meet"
+      ],
+      [
+        "en",
+        "Going for daughter's school admission"
+      ],
+      [
+        "en",
+        "University internship report submission"
+      ],
+      [
+        "en",
+        "going to favourite artist's music concert"
+      ],
+      [
+        "en",
+        "Professional photoshoot for business magazine"
+      ],
+      [
+        "en",
+        "Coffee meet with Jim"
+      ],
+      [
+        "en",
+        "Daily Standup meet"
+      ],
+      [
+        "en",
+        "Going to grocery store"
+      ],
+      [
+        "en",
+        "Long drive to nevada"
+      ],
+      [
+        "en",
+        "watching favourite TV show on TV"
+      ],
+      [
+        "en",
+        "meeting regarding bug fixes"
+      ]
+    ]
+  },
+  "ner": {
+    "settings": {
+      "tag": "ner",
+      "entityPreffix": "%",
+      "entitySuffix": "%"
+    },
+    "rules": {}
+  },
+  "nlgManager": {
+    "settings": {
+      "tag": "nlg-manager"
+    },
+    "responses": {}
+  },
+  "actionManager": {
+    "settings": {
+      "tag": "action-manager"
+    },
+    "actions": {}
+  },
+  "slotManager": {}
+}
