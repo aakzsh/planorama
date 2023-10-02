@@ -58,7 +58,7 @@ function App() {
     if (userEmail) {
       setUserEmail(userEmail);
     }
-    if(isUserPreferenceRequired == "true")
+    if(!isUserPreferenceRequired)
     {
       setPreferences(true);
     }
