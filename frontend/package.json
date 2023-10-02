@@ -11,6 +11,7 @@
   "dependencies": {
     "@nylas/components-agenda": "^1.1.6",
     "@nylas/nylas-react": "^0.1.0",
+    "axios": "^1.5.1",
     "date-fns": "^2.30.0",
     "react": "^18.2.0",
     "react-big-calendar": "^1.8.4",

@@ -4,7 +4,7 @@
   "description": "Demo using the Nylas Node SDK and ExpressJS.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "Nylas Team",
   "license": "ISC",
@@ -18,5 +18,8 @@
     "request": "^2.74.0",
     "sentiment-analysis": "^0.1.2",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }
