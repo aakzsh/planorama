@@ -1,0 +1,60 @@
+.homescreen{
+    padding-left: 2rem;
+    padding-right: 2rem;
+    background-color: transparent;
+    overflow-x: hidden;
+    z-index: 2;
+    height: max-content;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+justify-content: space-between;
+    
+}
+.calendar-and-alert{
+    width: 70vw;
+    min-height: 85vh;
+    height: max-content;
+    /* background-color: #B9C8FF; */
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    /* justify-content: space; */
+}
+
+.home-right{
+    width: 30vw;
+    max-height: 85vh;
+}
+
+.set-working-hours{
+    margin:  0  0 1rem 1rem;
+}
+
+.create-new-appointment{
+    margin:  0  0 1rem 1rem;
+
+}
+
+.setter-box{
+    height: 5rem;
+    background-color: #B9C8FF30;
+}
+.calendar-area{
+    width: 100%;
+    min-height: 70vh;
+    background-color: #B9C8FF30;
+    border-radius: 1rem;
+
+}
+
+.alert-box{
+    width: calc(100%-2rem);
+    height: 8vh;
+    /* background-color: rgb(237, 86, 86); */
+    display: flex;
+    align-items: center;
+    padding-left: 2rem;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+}

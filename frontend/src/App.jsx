@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNylas } from '@nylas/nylas-react';
 import NylasLogin from './NylasLogin';
 import Layout from './components/Layout';
+import Home from './Home/Home';
 
 function App() {
   const nylas = useNylas();
@@ -23,6 +24,7 @@ function App() {
           setUserId(id);
           sessionStorage.setItem('userId', id);
           sessionStorage.setItem('accessToken', accessToken);
+          // console.log("token is", accessToken)
         })
         .catch((error) => {
           console.error('An error occurred parsing the response:', error);
@@ -62,11 +64,7 @@ function App() {
       {!userId ? (
         <NylasLogin email={userEmail} setEmail={setUserEmail} />
       ) : (
-        <div className="app-card-container">
-          <div className="app-card">
-            <p>hemlo</p>
-          </div>
-        </div>
+        <Home/>
       )}
     </Layout>
   );

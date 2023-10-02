@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import IconLogout from './icons/IconLogout.jsx';
 import PropTypes from 'prop-types';
+import "../styles/Layout.css"
+import daisy from "../images/lily.svg"
 
 const Layout = ({ children, showMenu = false, disconnectUser }) => {
   const [isDisconnecting, setIsDisconnecting] = useState(false);
@@ -17,10 +19,10 @@ const Layout = ({ children, showMenu = false, disconnectUser }) => {
   return (
     <div className="layout">
       <div className="title-menu">
-        <h1>Sample app</h1>
+        <h1>{showMenu?"Planorama | Agenda":"Planorama"}</h1>
         {showMenu && (
           <div className="menu">
-            <button onClick={handleDisconnect} disabled={isDisconnecting}>
+            <button onClick={handleDisconnect} disabled={isDisconnecting} className='disconnectbtn'>
               <div className="menu-icon">
                 <IconLogout />
               </div>
@@ -31,6 +33,7 @@ const Layout = ({ children, showMenu = false, disconnectUser }) => {
           </div>
         )}
       </div>
+      <img src={daisy} className='daisy' alt="" />
       <main>{children}</main>
     </div>
   );

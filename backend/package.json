@@ -9,12 +9,14 @@
   "author": "Nylas Team",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.5.1",
     "body-parser": "^1.15.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.14.0",
     "nylas": "^6.10.0",
     "request": "^2.74.0",
+    "sentiment-analysis": "^0.1.2",
     "uuid": "^8.3.2"
   }
 }

@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const mockDb = require('./utils/mock-db');
+const axios = require('axios')
+const sentiment = require('sentiment-analysis');
 
 const Nylas = require('nylas');
 const { WebhookTriggers } = require('nylas/lib/models/webhook');
@@ -95,5 +97,39 @@ app.post('/nylas/exchange-mailbox-token', express.json(), async (req, res) => {
     accessToken: user.accessToken, // This is only for demo purposes - do not send access tokens to the client in production
   });
 });
+
+// get calendar events
+app.get('/nylas/get-calendar-events/:token', express.json(), async (req, res) => {
+  const token = req.params.token;
+  const response = await axios.get("https://api.nylas.com/events", { headers: { authorization: `Bearer ${token}` } })
+  let array = response.data
+  let newArray = array.filter(function (el) {
+    return el.when.start_time!=null 
+})
+
+console.log(newArray)
+
+  return res.send({data: newArray, code: 200});
+});
+
+
+// get calendar events
+app.post('/nylas/sort-events', express.json(), async (req, res) => {
+  
+  const body = req.body;
+  const analysis1 = sentiment('coffee meet with jim');
+  const analysis2 = sentiment('business expansion meet to discuss important deliverables');
+  const analysis3 = sentiment('daily standup');
+  const analysis4 = sentiment('important movie night');
+  const analysis5 = sentiment("taking measures to stop the downfall of our company")
+
+  // Print the results of the analysis
+  console.log(analysis1, analysis2, analysis3, analysis4, analysis5);
+
+
+  return res.send({data: "newArray", code: 200});
+});
+
+
 // Start listening on port 9000
 app.listen(port, () => console.log('App listening on port ' + port));

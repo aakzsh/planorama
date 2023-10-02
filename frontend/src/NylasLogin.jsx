@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNylas } from '@nylas/nylas-react';
+import "./styles/NylasLogin.css"
 
 const NylasLogin = ({ email, setEmail }) => {
   const nylas = useNylas();
@@ -20,15 +21,17 @@ const NylasLogin = ({ email, setEmail }) => {
 
   return (
     <section className="login">
-      <form onSubmit={loginUser}>
-        <input
+      <form onSubmit={loginUser} className='loginform'>
+        <p className='tagline'>Login with your Email to start smart scheduling with Planorama!</p>
+        <input className='emailinput'
           required
           type="email"
           placeholder="Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <button type="submit" disabled={isLoading}>
+        <br />
+        <button type="submit" disabled={isLoading} className='loginbtn'>
           {isLoading ? 'Connecting...' : 'Connect email'}
         </button>
       </form>
