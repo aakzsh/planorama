@@ -10,7 +10,7 @@ function App() {
   const nylas = useNylas();
   const [userId, setUserId] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [preferences, setPreferences] = useState(false);
+  const [preferences, setPreferences] = useState(true);
   const [firstCardChecked, setFirstCardChecked] = useState(true);
   const [index, setIndex] = useState(0);
   const [preferencesArray, setPreferencesArray] = useState([0,0,0,0,0,0]);
@@ -107,7 +107,7 @@ function App() {
         <NylasLogin email={userEmail} setEmail={setUserEmail} />
       ) : (
         <>
-          {preferences ? (
+          {!preferences ? (
             <div className="preferences-container">
               <ChoosePreferences
                 title1={index < choices.length ? choices[index][0] : choices[choices.length - 1][0]}

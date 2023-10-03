@@ -59,6 +59,12 @@ const Calendar = ({ handleChildStateUpdate }) => {
         "http://localhost:9000/nylas/get-calendar-events/" + token
       );
       setStaticEvents(response.data.data);
+      if(response.data.data.length>0){
+        
+        sessionStorage.setItem("calendar_id", response.data.data[0].calendar_id)
+        console.log("calendar id is ", response.data.data[0].calendar_id)
+      }
+      
       const conflicts = await checkingConflicts(response.data.data);
       sessionStorage.setItem("globalConflicting", conflicts.isConflicting);
       setLoading(false);

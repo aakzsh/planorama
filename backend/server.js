@@ -112,6 +112,26 @@ console.log(newArray)
   return res.send({data: newArray, code: 200});
 });
 
+app.post('/nylas/add-event/', express.json(), async (req, res) => {
+  const body = req.body;
+  const token = body.token
+  const newReqBody = {
+    "title": body.title,
+    "calendar_id": body.calendar_id,
+    "when": {
+      "start_time": body.when.start_time,
+      "end_time": body.when.end_time
+    },
+    "participants": []
+  }
+
+
+  const response = await axios.post("https://api.nylas.com/events", newReqBody, { headers: { authorization: `Bearer ${token}` } })
+  let responsedata = response.data
+console.log(responsedata)
+  return res.send({data: responsedata, code: 200});
+});
+
 
 // get calendar events
 app.post("/nylas/sort-events", express.json(), async (req, res) => {
