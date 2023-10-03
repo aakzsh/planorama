@@ -9,7 +9,7 @@ import checkConflicts from "../utils/check_conflicts";
 import getDayEvents from "../utils/get_day_events";
 import Loading from "../components/loading/Loading";
 
-const Calendar = ({ handleChildStateUpdate }) => {
+const Calendar = ({ handleChildStateUpdate, handleStaticEventsUpdate }) => {
   const [isLoading, setLoading] = useState(false);
   const [globalConflicting, setGlobalConflicting] = useState(false);
   const [conflictingDates, setConflictingDates] = useState([]);
@@ -59,6 +59,7 @@ const Calendar = ({ handleChildStateUpdate }) => {
         "http://localhost:9000/nylas/get-calendar-events/" + token
       );
       setStaticEvents(response.data.data);
+      handleStaticEventsUpdate(response.data.data)
       if(response.data.data.length>0){
         
         sessionStorage.setItem("calendar_id", response.data.data[0].calendar_id)

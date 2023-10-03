@@ -208,3 +208,9 @@ justify-content: space-between;
   }
 
   
+
+.expanded-events{
+    background-color: #B9C8FF30;
+    padding: 1rem;
+    margin-top: -2rem;
+}
