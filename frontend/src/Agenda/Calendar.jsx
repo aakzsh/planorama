@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as dateFns from "date-fns";
 import axios from "axios";
-import moment from "moment";
 import closeicon from "../images/x.svg";
 
 import "./Calendar.css";
@@ -9,7 +8,7 @@ import checkConflicts from "../utils/check_conflicts";
 import getDayEvents from "../utils/get_day_events";
 import Loading from "../components/loading/Loading";
 
-const Calendar = ({ handleChildStateUpdate }) => {
+const Calendar = ({ handleChildStateUpdate, handleStaticEventsUpdate }) => {
   const [isLoading, setLoading] = useState(false);
   const [globalConflicting, setGlobalConflicting] = useState(false);
   const [conflictingDates, setConflictingDates] = useState([]);
@@ -47,7 +46,6 @@ const Calendar = ({ handleChildStateUpdate }) => {
     const daydata = await getDayEvents(dateval, staticEvents);
     setdayData(daydata);
     openDayAgenda(true);
-    console.log(daydata);
   }
 
   const [staticEvents, setStaticEvents] = useState([]);
@@ -59,13 +57,20 @@ const Calendar = ({ handleChildStateUpdate }) => {
         "http://localhost:9000/nylas/get-calendar-events/" + token
       );
       setStaticEvents(response.data.data);
+      handleStaticEventsUpdate(response.data.data);
+      if (response.data.data.length > 0) {
+        sessionStorage.setItem(
+          "calendar_id",
+          response.data.data[0].calendar_id
+        );
+      }
+
       const conflicts = await checkingConflicts(response.data.data);
       sessionStorage.setItem("globalConflicting", conflicts.isConflicting);
       setLoading(false);
     }
     async function checkingConflicts(x) {
       const conflicts = await checkConflicts(x);
-      console.log(conflicts);
       setGlobalConflicting(conflicts.isConflicting);
       handleChildStateUpdate(conflicts.isConflicting);
       setConflictingDates(conflicts.conflictingDates);
@@ -130,7 +135,6 @@ const Calendar = ({ handleChildStateUpdate }) => {
         if (!dateFns.isSameMonth(day, monthStart)) {
           class_name = "disabled";
         } else {
-          // console.log(day)
           let colliding = false;
           let found = false;
           for (let i = 0; i < staticEvents.length; i++) {
@@ -163,12 +167,8 @@ const Calendar = ({ handleChildStateUpdate }) => {
               setDay(cloneDay);
               openDayAgenda(true);
             }}
-            // className={`column cell ${!dateFns.isSameMonth(day, monthStart)
-            // ? "disabled" : dateFns.isSameDay(day, selectedDate)
-            // ? "conflictingevent" : "eventlinedup" }`}
             className={"column cell " + class_name}
             key={day}
-            // idhar set hoga classname se
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
@@ -230,9 +230,14 @@ const Calendar = ({ handleChildStateUpdate }) => {
               </h3>
               <div className="time24hr">
                 {times.map((el) => {
-                  return <p>{el}</p>;
+                  return (
+                    <div className="timetext">
+                      <p className="timetextp">{el}</p>
+                    </div>
+                  );
                 })}
               </div>
+              <br />
               {dayData.map((element) => {
                 let firstTime = new Date(
                   element.when.start_time * 1000
@@ -244,8 +249,6 @@ const Calendar = ({ handleChildStateUpdate }) => {
                 let endTime = element.when.end_time * 1000;
                 let total_length = lastTime - firstTime;
                 let left_percent = (starttime - firstTime) / total_length;
-                console.log("left percent ", left_percent);
-                console.log("total length ", total_length);
                 let right_percent = (lastTime - endTime) / total_length;
 
                 let left =
@@ -254,10 +257,9 @@ const Calendar = ({ handleChildStateUpdate }) => {
                     (lastTime - element.when.start_time)) /
                     (lastTime - firstTime)) *
                   10;
-                // <p>{element.toString()}</p>
                 return (
                   <div>
-                    <p>{element.title}</p>
+                    <p className="meet-title">{element.title}</p>
                     <div className="timeline-axis">
                       <div
                         className="timetile"
