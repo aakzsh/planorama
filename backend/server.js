@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const mockDb = require("./utils/mock-db");
 const axios = require("axios");
 const sentiment = require("sentiment-analysis");
+const { gpt } = require("gpti");
 
 const Nylas = require("nylas");
 const { WebhookTriggers } = require("nylas/lib/models/webhook");
@@ -213,8 +214,28 @@ app.post("/nylas/delete-events", express.json(), async (req, res) => {
 
 // send email
 app.post("/nylas/send-emails", express.json(), async (req, res) => {
-  // in progress
-  return res.send({ data: "final_sorted", code: 200 });
+  const token = req.body.token;
+  const emailObject = req.body.emailObject;
+  await gpt(
+    {
+      prompt:
+        "Draft an email template apologising to people for not being able to join the meet" +
+        resume_content,
+      model: "gpt-4", // code or model
+      type: "json", // optional: "json" or "markdown"
+    },
+    async (err, data) => {
+      if (err != null) {
+        console.log(err);
+        res.send({ res:err });
+      } else {
+        const emailBody = JSON.parse(data.gpt.content)
+        emailObject.body = emailBody;
+        const response = await axios.post('https://api.nylas.com/send', emailObject, { headers: { authorization: `Bearer ${token}` }});
+        return res.send({code: response.status });     
+      }
+    }
+  );
 });
 
 // Start listening on port 9000

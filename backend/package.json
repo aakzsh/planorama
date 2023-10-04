@@ -18,7 +18,8 @@
     "nylas": "^6.10.0",
     "request": "^2.74.0",
     "sentiment-analysis": "^0.1.2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "gpti": "^1.0.5"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
