@@ -14,13 +14,10 @@ const { NlpManager } = require("node-nlp");
 dotenv.config();
 
 const app = express();
-
 // Enable CORS
 app.use(cors());
-
 // The port the express app will run on
 const port = 9000;
-
 // Initialize the Nylas SDK using the client credentials
 Nylas.config({
   clientId: process.env.NYLAS_CLIENT_ID,
@@ -62,13 +59,11 @@ openWebhookTunnel({
 // authenticating users to your Nylas application via Hosted Authentication
 app.post("/nylas/generate-auth-url", express.json(), async (req, res) => {
   const { body } = req;
-
   const authUrl = Nylas.urlForAuthentication({
     loginHint: body.email_address,
     redirectURI: (CLIENT_URI || "") + body.success_url,
     scopes: [Scope.Calendar],
   });
-
   return res.send(authUrl);
 });
 
@@ -77,20 +72,16 @@ app.post("/nylas/generate-auth-url", express.json(), async (req, res) => {
 // and sends the details of the authenticated user to the client
 app.post("/nylas/exchange-mailbox-token", express.json(), async (req, res) => {
   const body = req.body;
-
   const { accessToken, emailAddress } = await Nylas.exchangeCodeForToken(
     body.token
   );
-
   // Normally store the access token in the DB
   console.log("Access Token was generated for: " + emailAddress);
-
   // Replace this mock code with your actual database operations
   const user = await mockDb.createOrUpdateUser(emailAddress, {
     accessToken,
     emailAddress,
   });
-
   // Return an authorization object to the user
   return res.json({
     id: user.id,
@@ -112,13 +103,11 @@ app.get(
     let newArray = array.filter(function (el) {
       return el.when.start_time != null;
     });
-
-    console.log(newArray);
-
     return res.send({ data: newArray, code: 200 });
   }
 );
 
+// add new event in calendar
 app.post("/nylas/add-event/", express.json(), async (req, res) => {
   const body = req.body;
   const token = body.token;
@@ -131,11 +120,13 @@ app.post("/nylas/add-event/", express.json(), async (req, res) => {
     },
     participants: [],
   };
-
-  const cal_res = await axios.post("https://api.nylas.com/calendars", {"name": "new cal", "desc": "new desc"}, { headers: { authorization: `Bearer ${token}` } })
-
-  const cal_id = cal_res.data.id
-  newReqBody.calendar_id = cal_id
+  const cal_res = await axios.post(
+    "https://api.nylas.com/calendars",
+    { name: "new cal", desc: "new desc" },
+    { headers: { authorization: `Bearer ${token}` } }
+  );
+  const cal_id = cal_res.data.id;
+  newReqBody.calendar_id = cal_id;
   const response = await axios.post(
     "https://api.nylas.com/events",
     newReqBody,
@@ -146,8 +137,8 @@ app.post("/nylas/add-event/", express.json(), async (req, res) => {
   return res.send({ data: responsedata, code: 200 });
 });
 
+// bubble sort for sorting conflicting events in ascending order of priority
 function bubbleSort(array) {
-  console.log("new arrr is ", array);
   for (let i = 0; i < array.length; i++) {
     for (let j = 0; j < array.length - i - 1; j++) {
       if (array[j].score > array[j + 1].score) {
@@ -162,14 +153,14 @@ function bubbleSort(array) {
       }
     }
   }
-  let new_arr = []
-  for(let i=0;i<array.length;i++){
-    new_arr.push(array[i].event)
+  let new_arr = [];
+  for (let i = 0; i < array.length; i++) {
+    new_arr.push(array[i].event);
   }
   return new_arr;
 }
 
-// get calendar events
+// app route for sorting events
 app.post("/nylas/sort-events", express.json(), async (req, res) => {
   const manager = new NlpManager({ languages: ["en"], forceNER: true });
   const body = req.body;
@@ -178,24 +169,19 @@ app.post("/nylas/sort-events", express.json(), async (req, res) => {
   const high = body.high;
   const highPriorityTasks = high;
   const lowPriorityTasks = low;
-
   highPriorityTasks.forEach((el) => {
     manager.addDocument("en", el, "high");
   });
-
   lowPriorityTasks.forEach((el) => {
     manager.addDocument("en", el, "low");
   });
-
   await manager.train();
   manager.save();
-  
   let new_arr = [];
   for (let i = 0; i < events.length; i++) {
     let resp = await manager.process("en", events[i].title);
     let scores = resp.classifications;
     let s = 0;
-    console.log("scores is ", scores);
     for (let x = 0; x < scores.length; x++) {
       if (scores[x].intent === "high") {
         s += Number(scores[x].score);
@@ -206,39 +192,28 @@ app.post("/nylas/sort-events", express.json(), async (req, res) => {
     new_arr.push({ event: events[i], score: s });
   }
   const final_sorted = bubbleSort(new_arr);
-  console.log("final sorted is ", final_sorted);
   return res.send({ data: final_sorted, code: 200 });
 });
 
-
-app.post('/nylas/delete-events', express.json(), async(req, res)=>{
-  const events = req.body.events
-  const token = req.body.token
-  for(let i=0;i<events.length;i++){
-    console.log(events[i])
-    for(let j=0;j<events[i].length;j++){
+// delete bulk events with IDs
+app.post("/nylas/delete-events", express.json(), async (req, res) => {
+  const events = req.body.events;
+  const token = req.body.token;
+  for (let i = 0; i < events.length; i++) {
+    for (let j = 0; j < events[i].length; j++) {
       const resp = await axios.delete(
-      "https://api.nylas.com/events/"+events[i][j].id,
-      
-      { headers: { authorization: `Bearer ${token}` } }
-    );
+        "https://api.nylas.com/events/" + events[i][j].id,
+
+        { headers: { authorization: `Bearer ${token}` } }
+      );
     }
-    // const resp = await axios.delete(
-    //   "https://api.nylas.com/events/"+events[i].id,
-      
-    //   { headers: { authorization: `Bearer ${token}` } }
-    // );
   }
- 
-  return res.send({data: "deleted", code: 200})
-})
+  return res.send({ data: "deleted", code: 200 });
+});
 
 // send email
 app.post("/nylas/send-emails", express.json(), async (req, res) => {
-  const token = req.body.token
-  const emailObject = req.body.emailObject
-  const response = await axios.post("https://api.nylas.com/messages", emailObject,  { headers: { authorization: `Bearer ${token}` } })
-  console.log(response.data)
+  // in progress
   return res.send({ data: "final_sorted", code: 200 });
 });
 

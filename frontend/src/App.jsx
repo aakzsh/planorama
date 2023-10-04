@@ -40,7 +40,6 @@ function App() {
           setUserId(id);
           sessionStorage.setItem("userId", id);
           sessionStorage.setItem("accessToken", accessToken);
-          // console.log("token is", accessToken)
         })
         .catch((error) => {
           console.error("An error occurred parsing the response:", error);

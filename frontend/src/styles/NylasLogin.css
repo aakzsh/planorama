@@ -1,44 +1,42 @@
-.login{
-    /* background-color: pink; */
-    height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 2rem;
+.login {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.loginform{
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    justify-content: center;
-    align-items: center;
+.loginform {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
 }
 
-.emailinput{
-    height: 4rem;
-    width: 30rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    font-size: 1.2rem;
-    border: 2px solid rgb(35, 29, 59);
-    /* border: none; */
-    border-radius: 0.5rem;
+.emailinput {
+  height: 4rem;
+  width: 30rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  font-size: 1.2rem;
+  border: 2px solid rgb(35, 29, 59);
+  border-radius: 0.5rem;
 }
 
-.loginbtn{
-    height: 3rem;
-    width: 20rem;
-    font-size: 1.2rem;
-    background-color: rgb(35, 29, 59);
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
+.loginbtn {
+  height: 3rem;
+  width: 20rem;
+  font-size: 1.2rem;
+  background-color: rgb(35, 29, 59);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
 }
 
-.tagline{
-    font-size: 1.2rem;
-    font-weight: 500;
+.tagline {
+  font-size: 1.2rem;
+  font-weight: 500;
 }
