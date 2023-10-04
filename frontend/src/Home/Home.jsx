@@ -4,11 +4,14 @@ import "./Home.css";
 import alerticon from "../images/alert-triangle.svg";
 import axios from "axios";
 import accumulateConflicts from "../utils/accumulate_conflicts";
+import Loading from "../components/loading/Loading";
+import checkConflicts from "../utils/check_conflicts";
 
 const Home = () => {
   const [isConflicting, setConflicting] = useState(true);
   const [staticEvents, setStaticEvents] = useState([])
   const [conflicts, setConflicts] = useState([])
+  const [cancellations, setCancellations] = useState([])
   const handleChildStateUpdate = (val) => {
     setConflicting(val);
   };
@@ -16,6 +19,7 @@ const Home = () => {
     const ans = await accumulateConflicts(val)
     // console.l
     setConflicts(ans)
+    // setCancellations(ans)
     setStaticEvents(val);
   };
 
@@ -42,11 +46,53 @@ const Home = () => {
   const [endmin, setEndmin] = useState(null);
   const [savingText, setSavingText] = useState("Save");
 
+  const [loading, setLoading] = useState(false)
   const [appointmentStart, setAppointmentStart] = useState(null);
   const [appointmentEnd, setAppointmentEnd] = useState(null);
   const [appointmentText, setAppointmentText] = useState(null);
+  const [receivedCancelData, setReceivedCancelData] = useState(false)
 
   const [isExpanded, setExpanded] = useState(false)
+
+  async function deleteEvents(){
+    const token = await sessionStorage.getItem("accessToken")
+    let cancelled = cancellations;
+    const res = await axios.post("http://localhost:9000/nylas/delete-events",{
+        "events": cancelled,
+        "token": token
+    })
+    console.log(res.data)
+  }
+
+  async function sendMails(){
+    const token = await sessionStorage.getItem("accessToken")
+    let to = []
+    let cc = []
+    console.log(cancellations)
+    for(let i=0;i<cancellations.length;i++){
+      for(let j=0;j<cancellations[i].length;j++){
+        to.push(cancellations[i][j].organizer_email)
+        for(let x=0;x<cancellations[i][j].participants.length;x++){
+          cc = cc.concat(cancellations[i][j].participants[x].email)
+        }
+      // cc = cc.concat(cancellations[i][j].participants)
+      }
+    }
+    to = Array.from(new Set(to))
+    const email = await sessionStorage.getItem("userEmail")
+    const emailObject = {
+      from: email,
+      to: to,
+      subject: "Information regarding appointment cancellation!",
+      body: "This is a test email.",
+      cc: cc,
+    };
+    const res = await axios.post("http://localhost:9000/nylas/send-emails", {"token": token, "emailObject": emailObject})
+
+    console.log(emailObject)
+    console.log(res)
+    window.location.reload()
+  }
   useEffect(() => {
     async function getHoursandDays() {
       const hrs = await sessionStorage.getItem("time_array").split(",");
@@ -69,6 +115,66 @@ const Home = () => {
 
     getHoursandDays();
   }, []);
+
+  async function fixConflicts(){
+    setLoading(true)
+    const token = await sessionStorage.getItem("accessToken")
+    const body = {
+      "events": staticEvents,
+      "low": [
+        "Coffee meet with Jim",
+        "Daily Standup meet",
+        "Going to grocery store",
+        "Long drive to nevada",
+        "watching favourite TV show on TV",
+        "meeting regarding bug fixes",
+      ],
+      "high": [
+        "Business plan discussion with Alex",
+        "Production release meet",
+        "Going for daughter's school admission",
+        "University internship report submission",
+        "going to favourite artist's music concert",
+        "Professional photoshoot for business magazine",
+      ],
+      "token": token,
+  }
+  const num = await conflicts.length
+  console.log("conflict len ", conflicts.length)
+  for(let z=0;z<num;z++){
+    body.events = conflicts[z]
+    let orders = await axios.post("http://localhost:9000/nylas/sort-events", body)
+    let ordering = orders.data.data;
+    console.log("omderinggg ", ordering)
+    let cancelled = []
+    while(ordering.length>1){
+      console.log("len is ", ordering.length)
+      const isConflicting = (await checkConflicts(ordering)).isConflicting;
+      console.log("conflictsss ", isConflicting)
+      
+      if(isConflicting){
+         console.log("conflict toh hai ")
+        cancelled.push(ordering[0])
+        const removedElement = ordering.shift();
+      }
+      else{
+        break;
+      }
+    }
+    let cancel = cancellations;
+    if(cancelled.length>0){
+      cancel.push(cancelled)
+    }
+    
+    setCancellations(cancel)
+    console.log("cancellations ", cancellations)
+  }
+  // const resp = await axios.post("http://localhost:9000/nylas/sort-events", body)
+  // console.log(resp.data)
+  // console.log(x)
+  setLoading(false)
+  setReceivedCancelData(true)
+  }
   async function saveHoursandDays() {
     setSavingText("Saving...");
     let day_array = [
@@ -145,7 +251,9 @@ const Home = () => {
         )}
         {
           isExpanded?<div className="expanded-events">
-          {conflicts.map((el, index)=>{
+          {
+            !loading?<div>
+              {conflicts.map((el, index)=>{
             // console.log(el)
             return <div>
               <strong><p style={{color: "red"}}>Conflict {index+1}</p></strong>
@@ -158,13 +266,38 @@ const Home = () => {
                   <p style={{opacity: 0.7, fontSize: "0.9rem"}}>{start} <strong>to</strong> {end}</p>
                 </div>
               })}
+              {
+                receivedCancelData?<p style={{color: "red"}}>Events to be cancelled due to conflicts</p>:<p></p>
+              }
+              {
+                receivedCancelData?cancellations[index].map((event)=>{
+                  let start = new Date(event.when.start_time * 1000).toString()
+                  let end = new Date(event.when.end_time * 1000).toString()
+                  console.log(start)
+                  return <div style={{marginBottom: "2rem"}}>
+                    <p>{event.title}</p>
+                    <p style={{opacity: 0.7, fontSize: "0.9rem"}}>{start} <strong>to</strong> {end}</p>
+                  </div>
+                }):<div></div>
+              }
               <br />
               
             </div>
           })}
-          <button>Fix these conflicts using AI</button>
+
+          {
+            !receivedCancelData? <button onClick={()=>{fixConflicts()}}>Fix these conflicts using AI</button>: 
+            <div>
+              <button onClick={()=>{deleteEvents(), sendMails()}} style={{"width": "30rem"}}>Proceed to cancel events and send emails</button>
+              <br /> <br />
+              <button onClick={()=>{deleteEvents()}}style={{"width": "30rem"}}>Proceed to cancel events without sending emails</button>
+            </div>
+          }
+          
           <br />
           <br />
+            </div>:<div><Loading/></div>
+          }
         </div>: <p></p>
         }
       </div>
